@@ -19,7 +19,7 @@
     "scripts": {
         "build": "cross-env NODE_ENV=production webpack",
         "dev": "webpack serve --content-base public",
-        "serve-prod": "serveee -l tcp://$HOST:$PORT public || echo 'You need to globally install serve first!'"
+        "serve-prod": "serve -l tcp://$HOST:$PORT public || echo 'You need to globally install serve first!'"
     },
     "dependencies": {
         "mini.css": "^3.0.1",
