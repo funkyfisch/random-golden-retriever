@@ -1,6 +1,7 @@
 <script>
 	import { onMount } from "svelte";
 	import sillyname from "sillyname";
+   import 'mini.css/dist/mini-default.min.css';
 
 	let name = ""
 	let isPictureLoading = true
@@ -199,7 +200,7 @@
 
 	async function randomGoldenRetriever() {
 		isPictureLoading = true
-		name = `${["Mr.", "Dr.", "Mrs.", "Ms."][Math.floor(Math.random() * 4)]} ${sillyname()}`
+		name = `${["Mr.", "Dr.", "Mrs.", "Ms."][Math.floor(Math.random() * 4)]} ${sillyname()}`.toUpperCase()
 		const goldenRetrievers = await getLinksToAllRetrieverImages()
 		isPictureLoading = false
 		pictureSrc = goldenRetrieverImages[
@@ -211,17 +212,44 @@
 </script>
 
 <main>
-	{#if !isPictureLoading}
-	<h1>{name}</h1>
-	<img src={pictureSrc} alt="a random doggo"/>
-	{:else}
-	<h1>Random doggo name here</h1>
-	<img src={loadingGifSrc} alt="loading animation"/>
-	{/if}
+   <div class="container">
+      {#if !isPictureLoading}
+         <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-sm-12 col-md-8">
+               <h2>{name}</h2>
+            </div>
+            <div class="col-md-2"></div>
+         </div>
+         <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-sm-12 col-md-8" style="object-fit: contain;">
+               <img src={pictureSrc} alt="a random doggo" style="max-height: 500px"/>
+            </div>
+            <div class="col-md-2"></div>
+         </div>
+      {:else}
+      <div class="row">
+         <div class="col-sm-2"></div>
+         <div class="col-sm-12 col-md-8">
+            <h2>Random doggo name here</h2>
+         </div>
+         <div class="col-md-2"></div>
+      </div>
+      <div class="row">
+         <div class="col-sm-3"></div>
+         <div class="col-md-2">
+            <img src={loadingGifSrc} alt="loading animation"/>
+         </div>
+         <div class="col-md-2"></div>
+      </div>
+      {/if}
+   </div>
 
 </main>
 
-<style>
+<style global>
+   @import "mini.css";
 	main {
 		text-align: center;
 		padding: 1em;
@@ -229,11 +257,17 @@
 		margin: 0 auto;
 	}
 
-	h1 {
+	h2 {
 		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
+      -ms-word-break: break-all;
+      word-break: break-all;
+
+      /* Non standard for WebKit */
+      word-break: break-word;
+
+      -webkit-hyphens: auto;
+      -moz-hyphens: auto;
+      hyphens: auto;
 	}
 
 	@media (min-width: 640px) {
