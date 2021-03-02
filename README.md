@@ -1,6 +1,6 @@
 # Random Golden Retriever
 
-[![funkyfisch](https://circleci.com/gh/funkyfisch/random-golder-retriever.svg?style=shield)](https://circleci.com/gh/funkyfisch/random-golder-retriever?branch=master)
+[![funkyfisch](https://circleci.com/gh/funkyfisch/random-golden-retriever.svg?style=shield)](https://circleci.com/gh/funkyfisch/random-golden-retriever?branch=master)
 
 Interactive Golden Retriever Browser
 
