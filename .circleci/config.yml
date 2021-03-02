@@ -23,7 +23,7 @@ workflows:
       - determine-job-necessity:
           filters:
             branches:
-              only: master
+              ignore: master
       - build:
           requires:
             - determine-job-necessity
