@@ -12,13 +12,21 @@ workflows:
             branches:
               only: master
       - heroku/deploy-via-git:
+          requires:
+            - determine-job-necessity
           filters:
             branches:
               only: master
 
   on-pull-request-update:
     jobs:
+      - determine-job-necessity:
+          filters:
+            branches:
+              ignore: master
       - build:
+          requires:
+            - determine-job-necessity
           filters:
             branches:
               ignore: master
