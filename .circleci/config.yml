@@ -1,0 +1,59 @@
+version: 2.1
+
+orbs:
+  heroku: circleci/heroku@0.0.10
+
+workflows:
+
+  on-master-merge:
+    jobs:
+      - determine-job-necessity:
+          filters:
+            branches:
+              only: master
+      - heroku/deploy-via-git:
+          filters:
+            branches:
+              only: master
+
+  on-pull-request-update:
+    jobs:
+      - build:
+          filters:
+            branches:
+              ignore: master
+
+jobs:
+
+  build:
+    docker:
+      - image: circleci/node:lts
+    working_directory: ~/random-golden-retriever
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-npm-deps-{{ checksum "package-lock.json" }}
+            - v1-npm-deps-
+      - run: npm install
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+      - save_cache:
+          paths:
+            - ./node_modules
+          key: v1-npm-{{ checksum "package-lock.json" }}
+      - run: npm run build
+
+  determine-job-necessity:
+    docker:
+      - image: circleci/node:lts
+    steps:
+      - checkout
+      - run: |
+          modified_files=$(git diff HEAD..HEAD~1 --name-only --diff-filter=M)
+          if [[ "$modified_files" == "README.md" ]]
+          then
+            circleci-agent step halt
+          fi
